@@ -5,6 +5,12 @@ view: d_supplier {
     type: number
     sql: ${TABLE}."S_ACCTBAL" ;;
   }
+  dimension: s_acctbal_tier {
+    type: tier
+    tiers: [1, 3001, 5001, 7001]
+    sql: ${s_acctbal} ;;
+    style: integer
+  }
   dimension: s_address {
     type: string
     sql: ${TABLE}."S_ADDRESS" ;;
@@ -31,7 +37,13 @@ view: d_supplier {
     sql: ${TABLE}."S_SUPPKEY" ;;
   }
   measure: count {
+    label: "Supplier Count"
     type: count
     drill_fields: [s_name]
+  }
+  measure: account_balance {
+    type: sum
+    sql: ${s_acctbal} ;;
+    value_format_name: usd_0
   }
 }

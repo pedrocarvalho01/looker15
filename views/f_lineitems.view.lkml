@@ -95,6 +95,22 @@ view: f_lineitems {
     sql: ${TABLE}."L_TOTALPRICE" ;;
   }
   measure: count {
+    label: "Line Items Count"
     type: count
+  }
+  measure: total_sale_price {
+    type: sum
+    sql: ${l_totalprice} ;;
+    value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+  }
+  measure: avg_sale_price {
+    type: average
+    sql: ${l_totalprice} ;;
+    value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+  }
+  measure: cumulative_total {
+    type: running_total
+    sql: ${total_sale_price} ;;
+    value_format_name: usd_0
   }
 }
