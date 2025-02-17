@@ -10,6 +10,7 @@ view: d_supplier {
     tiers: [1, 3001, 5001, 7001]
     sql: ${s_acctbal} ;;
     style: integer
+    description: "Tier created to be used within a Cohort of Suppliers according to Account Balance"
   }
   dimension: s_address {
     type: string
@@ -45,5 +46,6 @@ view: d_supplier {
     type: sum
     sql: ${s_acctbal} ;;
     value_format_name: usd_0
+    description: "Sum of Account Balance"
   }
 }

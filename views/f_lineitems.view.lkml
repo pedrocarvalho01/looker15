@@ -102,15 +102,70 @@ view: f_lineitems {
     type: sum
     sql: ${l_totalprice} ;;
     value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+    description: "Total Sales from Items sold, is Sum of Total Price"
   }
   measure: avg_sale_price {
     type: average
     sql: ${l_totalprice} ;;
     value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+    description: "Average Price from Items sold, is Avg of Total Price"
   }
   measure: cumulative_total {
     type: running_total
     sql: ${total_sale_price} ;;
     value_format_name: usd_0
+    description: "Cumulative of Total Sales from Items sold, is Running Total of Total Price"
+  }
+  measure: total_gross_revenue {
+    type: sum
+    sql: ${l_totalprice} ;;
+    value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+    filters: [l_orderstatus: "F"]
+    description: "Total Price of Completed Sales, is Sum of Total Price filtering Order Status equals F "
+  }
+  measure: total_cost {
+    type: sum
+    sql: ${l_supplycost} ;;
+    value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+    description: "Total Cost is Sum of Supply Cost"
+  }
+  measure: total_gross_margin {
+    type: number
+    sql: ${total_gross_revenue} - ${total_cost} ;;
+    value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+    # value_format_name: usd_0
+    description: "Total Gross Margin is Total Gross Revenue minus Total Cost"
+  }
+  measure: gross_margin_percentage {
+    type: number
+    sql: ${total_gross_margin}/ NULLIF(${total_gross_revenue},0) ;;
+    value_format_name: percent_2
+    description: "Gross Margin Percentage is Total Gross Margin divided by Total Gross Revenue"
+  }
+  measure: items_returned {
+    type: count
+    filters: [l_returnflag: "R"]
+    description: "Number of Liten Order Items that were returned by dissatisfied customers, Return Flag equal R"
+  }
+  measure: items_sold {
+    type: count
+    filters: [l_orderstatus: "F"]
+    description: "Number of Liten Order Items sold, Order Status equals F"
+  }
+  measure: item_return_rate {
+    type: number
+    sql: ${items_returned} / NULLIF(${items_sold},0) ;;
+    value_format_name: percent_2
+    description: "Item Return Rate is total of Items Returned divided by total of Items Sold"
+  }
+  measure: count_customer {
+    type: count_distinct
+    sql: ${l_custkey} ;;
+  }
+  measure: average_spend_customer {
+    type: number
+    sql: ${total_sale_price} / NULLIF(${count_customer},0) ;;
+    value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+    description: "Average Spend per Customer is Total Sale Price divided by Total number of Customers"
   }
 }

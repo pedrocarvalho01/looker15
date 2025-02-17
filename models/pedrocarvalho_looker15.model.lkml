@@ -20,7 +20,7 @@ persist_with: pedrocarvalho_looker15_default_datagroup
 
 # explore: d_part {}
 
-explore: d_supplier {}
+# explore: d_supplier {}
 
 explore: f_lineitems {
 
