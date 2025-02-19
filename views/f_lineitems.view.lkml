@@ -95,19 +95,19 @@ view: f_lineitems {
     sql: ${TABLE}."L_TOTALPRICE" ;;
   }
   measure: count {
-    label: "Line Items Count"
+    label: "Count Line Items"
     type: count
   }
   measure: total_sale_price {
     type: sum
     sql: ${l_totalprice} ;;
-    value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+    # value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
     description: "Total Sales from Items sold, is Sum of Total Price"
   }
   measure: avg_sale_price {
     type: average
     sql: ${l_totalprice} ;;
-    value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+    # value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
     description: "Average Price from Items sold, is Avg of Total Price"
   }
   measure: cumulative_total {
@@ -119,9 +119,9 @@ view: f_lineitems {
   measure: total_gross_revenue {
     type: sum
     sql: ${l_totalprice} ;;
-    value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+    # value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
     filters: [l_orderstatus: "F"]
-    description: "Total Price of Completed Sales, is Sum of Total Price filtering Order Status equals F "
+    description: "Total Gross Revenue, is Sum of Total Price filtering Order Status equals F "
   }
   measure: total_cost {
     type: sum
@@ -132,7 +132,8 @@ view: f_lineitems {
   measure: total_gross_margin {
     type: number
     sql: ${total_gross_revenue} - ${total_cost} ;;
-    value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
+    drill_fields: [d_supplier.s_region, d_supplier.account_balance]
+    # value_format: "[>=1000000]$#,##0,,\"M\";$#,##0"
     # value_format_name: usd_0
     description: "Total Gross Margin is Total Gross Revenue minus Total Cost"
   }

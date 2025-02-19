@@ -19,6 +19,15 @@ view: d_supplier {
   dimension: s_name {
     type: string
     sql: ${TABLE}."S_NAME" ;;
+    link: {
+      label: "Search on Google for {{ value }}"
+      url: "https://www.google.com/search?q={{ value | url_encode }}"
+      icon_url: "http://google.com/favicon.ico"
+    }
+    link: {
+      label: "See Revenue Details"
+      url: "/looks/539?&f[d_supplier.s_name]={{ value | url_encode }}"
+    }
   }
   dimension: s_nation {
     type: string
@@ -45,7 +54,7 @@ view: d_supplier {
   measure: account_balance {
     type: sum
     sql: ${s_acctbal} ;;
-    value_format_name: usd_0
+    # value_format_name: usd_0
     description: "Sum of Account Balance"
   }
 }

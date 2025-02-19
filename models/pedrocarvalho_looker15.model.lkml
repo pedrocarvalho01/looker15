@@ -1,11 +1,12 @@
 connection: "tpchlooker"
 
 # include all the views
-# include: "/views/**/*.view.lkml"
-include: "/views/f_lineitems.view.lkml"
-include: "/views/d_part.view.lkml"
-include: "/views/d_supplier.view.lkml"
-include: "/views/d_customer.view.lkml"
+include: "/views/**/*.view.lkml"
+# include: "/views/f_lineitems.view.lkml"
+# include: "/views/d_part.view.lkml"
+# include: "/views/d_supplier.view.lkml"
+# include: "/views/d_customer.view.lkml"
+# include: "/views/d_dates.view.lkml"
 
 datagroup: pedrocarvalho_looker15_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -38,5 +39,10 @@ explore: f_lineitems {
     type: left_outer
     relationship: many_to_one
     sql_on: ${f_lineitems.l_custkey} = ${d_customer.c_custkey} ;;
+  }
+  join: d_dates {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${f_lineitems.l_orderdatekey} = ${d_dates.datekey} ;;
   }
 }

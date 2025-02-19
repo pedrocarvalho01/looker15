@@ -3,7 +3,7 @@ view: d_dates {
 
   dimension_group: date_val {
     type: time
-    timeframes: [raw, date, week, month, quarter, year]
+    timeframes: [raw, date, day_of_month, week, month, quarter, year]
     convert_tz: no
     datatype: date
     sql: ${TABLE}."DATE_VAL" ;;
